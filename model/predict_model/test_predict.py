@@ -28,7 +28,8 @@ with open("../conDataAndModel/xgb_model.pkl", "rb") as dataFile:
 with open("../conDataAndModel/le_label.pkl", "rb") as dataFile:
     label_model = pickle.load(dataFile)
 import numpy as np
-
+with open("../conDataAndModel/scaler.pkl", "rb") as dataFile:
+    scaler = pickle.load(dataFile)
 def test_predict(test_text):
     test_words = [text for text in jieba.lcut(test_text) if text not in stopword_list]
     # print(test_words)
@@ -44,7 +45,7 @@ def test_predict(test_text):
         'neg'] = zip(emotion_sentiment_convert(test_text))
 
     test_df = pd.concat([pd.DataFrame([test_vec]), senti_emotion_test_df], axis=1)
-
+    test_df = scaler.transform(test_df)
     # print(senti_emotion_test_df)
     y_preidct = clf_model.predict(test_df)
     y_predict_c = label_model.inverse_transform(y_preidct[0])
@@ -52,5 +53,5 @@ def test_predict(test_text):
 
 
 if __name__ == '__main__':
-    test_text = "12月8日，经四川省成都市成华区新冠肺炎疫情防控指挥部研究决定：自12月8日21时起，将成都市成华区崔家店华都云景台小区的风险等级由低风险调整为中风险。成都市成华区其他区域低风险等级不变。"
+    test_text = "员工是我的宝贝[心]】江苏苏州的陆鸿，儿时因病导致脑瘫。读书时，他不断被同学恶意模仿，求职时又被侮辱“狗都不如”。经过一段时间的消沉后，他开始摆摊、开店、学影视后期，开起了相册厂，还遇到了支持他的妻子。如今，他的工厂内有42名员工，其中30人是残疾人。陆鸿说：“他们都是我的宝贝"
     print("预测结果:",test_predict(test_text))

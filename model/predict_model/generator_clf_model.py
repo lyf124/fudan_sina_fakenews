@@ -38,10 +38,17 @@ y_test = le.transform(y_test)
 from xgboost import XGBClassifier
 
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler,MinMaxScaler
 randomforest_model = RandomForestClassifier(n_estimators=10, max_depth=10)
+
 
 x_train = x_train.drop(['text'],axis=1)
 x_test = x_test.drop(['text'],axis=1)
+scaler = StandardScaler()
+x_train = scaler.fit_transform(x_train)
+x_test = scaler.transform(x_test)
 # 计算分类正确率
 from sklearn.metrics import accuracy_score
 model = XGBClassifier()
@@ -59,3 +66,5 @@ with open("../conDataAndModel/xgb_model.pkl", "wb") as dataFile:
     pickle.dump(model,dataFile)
 with open("../conDataAndModel/le_label.pkl", "wb") as dataFile:
     pickle.dump(le,dataFile)
+with open("../conDataAndModel/scaler.pkl", "wb") as dataFile:
+    pickle.dump(scaler,dataFile)
