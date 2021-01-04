@@ -22,10 +22,11 @@ emotion = Emotion()
 
 def function_sentiment(x):
     result = senti.sentiment_count(x)
-    return result['pos'],result['neg']
+    c_result = senti.sentiment_calculate(x)
+    return result['pos'],result['neg'],c_result['pos'],c_result['neg']
 
 
-data['pos'],data['neg']= zip(*data['text'].apply(lambda x:function_sentiment(x)))
+data['pos'],data['neg'],data['pos_s'],data['neg_s']= zip(*data['text'].apply(lambda x:function_sentiment(x)))
 with open("data_fake_senti.pkl", "wb") as dataFile:
     pickle.dump(data,dataFile)
 

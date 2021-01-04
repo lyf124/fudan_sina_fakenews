@@ -12,7 +12,7 @@ plt.rcParams["font.sans-serif"]=["SimHei"]
 plt.rcParams['axes.unicode_minus'] = False
 # with open("./data.pkl", "rb") as dataFile:
 #     data = pickle.load(dataFile)
-with open('../data/yangshi_data.txt', 'r', encoding='utf-8') as file:
+with open('../data/fake_data.txt', 'r', encoding='utf-8') as file:
     data = pd.DataFrame()
     data['text']=file.readlines()[0:3000]
 data["target"]='fake'

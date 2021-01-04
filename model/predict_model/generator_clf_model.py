@@ -38,6 +38,7 @@ y_test = le.transform(y_test)
 from xgboost import XGBClassifier
 
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.svm import SVC
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler,MinMaxScaler
@@ -51,6 +52,8 @@ x_train = scaler.fit_transform(x_train)
 x_test = scaler.transform(x_test)
 # 计算分类正确率
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
 model = XGBClassifier()
 model.fit(x_train, y_train)
 print(x_test)
@@ -60,6 +63,10 @@ print(y_test)
 accuracy = accuracy_score(y_test, y_pred)
 from sklearn.metrics import f1_score
 print("Accuracy: %.2f%%" % (accuracy * 100.0))
+precision_score = precision_score(y_test, y_pred, average='macro')
+print("precision_score: %.2f%%" % (precision_score * 100.0))
+recall_score = recall_score(y_test, y_pred, average='macro')
+print("recall_score: %.2f%%" % (recall_score * 100.0))
 f1_score = f1_score(y_test, y_pred, average='macro')
 print("F1: %.2f%%" % (f1_score * 100.0))
 with open("../conDataAndModel/xgb_model.pkl", "wb") as dataFile:
